@@ -5,7 +5,7 @@
 @font-face{font-family:"IBM Plex Sans Arabic";src:url("../fonts/plex-arabic-arabic-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 :root{
   --ink:#071b35;--ink-2:#0d2b4f;--ink-soft:#123556;--paper:#f4f1ea;--paper-2:#ebe6db;--white:#fffdfa;
-  --gold:#d8ae54;--gold-deep:#b8923f;--sky:#8ee2e8;--blue:#187d99;--muted:#5e6874;--muted-on-navy:#b7c5d2;
+  --gold:#d8ae54;--gold-deep:#b8923f;--sky:#8ee2e8;--blue:#187d99;--muted:#4f5863;--muted-on-navy:#b7c5d2;
   --line:#d7d2c7;--line-on-navy:rgba(142,226,232,.28);
   --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
   --font-sans:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
