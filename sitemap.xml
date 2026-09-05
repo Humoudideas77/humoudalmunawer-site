@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://humoudalmunawer.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://humoudalmunawer.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://humoudalmunawer.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://humoudalmunawer.com/ar/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://humoudalmunawer.com/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://humoudalmunawer.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://humoudalmunawer.com/ar/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url><loc>https://humoudalmunawer.com/en/posts.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/posts.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://humoudalmunawer.com/en/prompt-caching.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/prompt-caching.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/en/batch-api.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/batch-api.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/en/tailscale-key-expiry.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/tailscale-key-expiry.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/en/kimi-k3-vs-fable.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/kimi-k3-vs-fable.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/en/open-vs-closed-cyber-gap.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humoudalmunawer.com/ar/open-vs-closed-cyber-gap.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>
