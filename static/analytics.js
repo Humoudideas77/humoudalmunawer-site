@@ -5,7 +5,7 @@
 (() => {
   'use strict';
 
-  const ENDPOINT = null; // set to '/api/collect' or full URL when a collector exists
+  const ENDPOINT = '/api/collect';
   const dnt =
     navigator.doNotTrack === '1' ||
     window.doNotTrack === '1' ||
