@@ -23,7 +23,7 @@ module.exports = async function handler(req, res) {
   };
 
   const allow = new Set([
-    'page_view', 'content_view', 'second_page', 'guide_open', 'build_open',
+    'page_view', 'content_view', 'second_page', 'guide_open', 'build_open', 'ui_click',
     'github_outbound', 'ventram_outbound', 'fann_outbound',
     'linkedin_outbound', 'x_outbound', 'medium_outbound', 'contact_action',
   ]);

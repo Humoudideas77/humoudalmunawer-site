@@ -1,10 +1,10 @@
-/*! First-party privacy-light analytics — schema aligned with /api/collect.
- * Funnel: VISIT → CONTENT → SECOND_PAGE → OUTBOUND → CONTACT
- * Respects Do Not Track. Events land in Vercel Runtime Logs as [site-analytics].
- * Canonical events: page_view, content_view, second_page, guide_open, build_open,
- * github_outbound, ventram_outbound, fann_outbound, linkedin_outbound, x_outbound,
- * medium_outbound, contact_action.
- * QA traffic: utm_source=qa|*cutover*|root-fix|site-qa is labeled qa:true for exclusion.
+/*! First-party analytics — aligned with /api/collect.
+ * page_view = page actually loaded (never from lang-switch click alone)
+ * content_view = article/guide page load (path-based), not nav/CTA clicks
+ * ui_click = language switch, hero CTAs, in-page nav that isn't an outbound/content open
+ * guide_open / build_open = explicit object opens (data-analytics)
+ * *_outbound / contact_action = destination clicks
+ * UTM flat; session first-touch; qa:true for exclusion from organic reports
  */
 (() => {
   'use strict';
@@ -30,16 +30,11 @@
   function loadUtm() {
     let utm = parseUtm();
     if (Object.keys(utm).length) {
-      try {
-        sessionStorage.setItem('ha_utm', JSON.stringify(utm));
-      } catch (_) {}
+      try { sessionStorage.setItem('ha_utm', JSON.stringify(utm)); } catch (_) {}
       return utm;
     }
-    try {
-      return JSON.parse(sessionStorage.getItem('ha_utm') || '{}') || {};
-    } catch (_) {
-      return {};
-    }
+    try { return JSON.parse(sessionStorage.getItem('ha_utm') || '{}') || {}; }
+    catch (_) { return {}; }
   }
 
   const storedUtm = loadUtm();
@@ -73,9 +68,7 @@
       ...payload,
     };
     window.dataLayer.push(row);
-    if (typeof console !== 'undefined' && console.debug) {
-      console.debug('[analytics]', row);
-    }
+    if (typeof console !== 'undefined' && console.debug) console.debug('[analytics]', row);
     if (!ENDPOINT) return;
     try {
       const body = JSON.stringify(row);
@@ -93,7 +86,20 @@
     } catch (_) {}
   }
 
+  // Actual page load only
   push('page_view', { title: document.title });
+
+  // Content-page view: guide/note/article paths (not homepage, not posts index alone as "content")
+  (function contentPageView() {
+    const p = location.pathname.replace(/\/+$/, '') || '/';
+    const isLocaleHome = /^\/(en|ar)?$/.test(p) || p === '/en' || p === '/ar';
+    const isPostsIndex = /\/(en|ar)\/posts$/.test(p);
+    const isGuideLike =
+      /\/(en|ar)\/[a-z0-9][\w-]+$/i.test(p) && !isLocaleHome && !isPostsIndex;
+    if (isGuideLike) {
+      push('content_view', { title: document.title, content_kind: 'page' });
+    }
+  })();
 
   try {
     const key = 'ha_pages';
@@ -105,22 +111,28 @@
     }
   } catch (_) {}
 
-  function mapEvent(raw) {
+  function mapClick(raw, href) {
     const v = (raw || '').toLowerCase().replace(/-/g, '_');
+    if (v.includes('lang')) return 'ui_click';
+    if (v.includes('cta') || v === 'cta_primary_hero' || v === 'cta_secondary_hero') return 'ui_click';
     if (v.includes('guide')) return 'guide_open';
     if (v.includes('build') || v === 'object_open') return 'build_open';
-    if (v.includes('content') || v.includes('cta') || v.includes('library')) return 'content_view';
+    // content_open on cards that navigate to articles = guide_open/content intent click, NOT content_view
+    if (v.includes('content') || v.includes('library') || v.includes('insight')) return 'ui_click';
     if (v.includes('github') || v === 'outbound_github') return 'github_outbound';
     if (v.includes('ventram') || v === 'outbound_ventram') return 'ventram_outbound';
     if (v.includes('fann') || v === 'outbound_fann') return 'fann_outbound';
     if (v.includes('linkedin')) return 'linkedin_outbound';
-    if (v === 'outbound_x' || v === 'x_outbound' || (v.includes('outbound') && v.includes('twitter')))
-      return 'x_outbound';
     if (v.includes('medium')) return 'medium_outbound';
-    if (v.includes('social') && v.includes('outbound')) return 'x_outbound';
+    if (v.includes('outbound_social') || v === 'outbound_social') {
+      const h = (href || '').toLowerCase();
+      if (h.includes('linkedin.com')) return 'linkedin_outbound';
+      if (h.includes('medium.com')) return 'medium_outbound';
+      if (h.includes('x.com') || h.includes('twitter.com')) return 'x_outbound';
+      return 'ui_click';
+    }
     if (v.includes('contact') || v.includes('whatsapp')) return 'contact_action';
-    if (v.includes('lang')) return 'page_view';
-    return v || 'content_view';
+    return 'ui_click';
   }
 
   document.addEventListener(
@@ -130,19 +142,13 @@
       if (!el) return;
       const raw = el.getAttribute('data-analytics');
       const href = el.href || el.getAttribute('href') || '';
-      let event = mapEvent(raw);
-      // Disambiguate outbound_social by destination
-      if ((raw || '').toLowerCase().includes('outbound_social') || event === 'x_outbound') {
-        const h = href.toLowerCase();
-        if (h.includes('linkedin.com')) event = 'linkedin_outbound';
-        else if (h.includes('medium.com')) event = 'medium_outbound';
-        else if (h.includes('x.com') || h.includes('twitter.com')) event = 'x_outbound';
-      }
+      const event = mapClick(raw, href);
       push(event, {
         label: el.getAttribute('data-analytics-label') || raw,
         href,
         text: (el.textContent || '').trim().slice(0, 80),
         object_type: el.getAttribute('data-object-type') || '',
+        click_kind: raw || '',
       });
     },
     true
