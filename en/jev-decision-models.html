@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Chat models are a bad fit for routing decisions. Name the Decision Model layer, then move the gates that need a typed answer."><meta name="referrer" content="strict-origin-when-cross-origin"><meta property="og:type" content="article"><meta property="og:title" content="Decision Models: when chat is the wrong layer"><meta property="og:description" content="A founder checklist for moving agent gates from chat to a Decision Model layer."><meta property="og:url" content="https://humoudalmunawer.com/en/jev-decision-models"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Decision Models: when chat is the wrong layer"><meta name="twitter:description" content="A founder checklist for moving agent gates from chat to a Decision Model layer."><title>Decision Models: when chat is the wrong layer</title><link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://humoudalmunawer.com/en/jev-decision-models"><link rel="alternate" hreflang="en" href="https://humoudalmunawer.com/en/jev-decision-models"><link rel="alternate" hreflang="ar" href="https://humoudalmunawer.com/ar/jev-decision-models"><link rel="alternate" hreflang="x-default" href="https://humoudalmunawer.com/en/"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/site-v2.css"></head><body><a class="skip-link" href="/en/jev-decision-models#main">Skip to content</a><header class="shell site-header"><a class="wordmark" href="/en/">Humoud Al Munawer</a><nav aria-label="Primary navigation"><a href="/en/#about">Approach</a><a href="/en/#ventures">Ventures</a><a href="/en/#useful-work">Public work</a><a href="/en/#connect">Connect</a></nav><a class="lang" href="/ar/jev-decision-models" aria-label="Switch to Arabic">AR / EN</a></header><main id="main" class="shell article">
+<p class="eyebrow">Founder note</p>
+<h1>Decision Models: when chat is the wrong layer</h1>
+<p class="article__dek">Chat models are a bad fit for routing decisions. Name the Decision Model layer, then move the gates that need a typed answer.</p>
+<p>Simon Willison’s useful rename — Decision Models (what Jev / TypeSafe called System One) — names the layer: you feed unstructured state, and you get a typed answer back — yes/no, a choice, or a score with confidence — fast and cheap at volume.</p>
+<p>If you are still asking a chat model to classify, rank, or allow traffic, you are paying for prose you throw away.</p>
+<h2>Buy/build checklist this week</h2>
+<ol>
+<li><strong>List every agent gate that is really a decision</strong> — route, allow, rank, or label.</li>
+<li><strong>Score each gate</strong> on speed, cost at volume, and reliability of a typed answer.</li>
+<li><strong>Move the winners</strong> to a Decision Model layer.</li>
+<li><strong>Keep chat for language and tool dialogue</strong> — stop parsing paragraphs into booleans.</li>
+</ol>
+<h2>Why it matters</h2>
+<p>Builders keep forcing chat-first models into decision loops. The split is the product: decision layer is not the same as chat layer.</p>
+<h2>Humoud’s take</h2>
+<p>Steal the split before you fine-tune another classifier. If latency or cost dominate and the labels are yours, own the decision layer. If you need unlabeled generality, buy frontier. If you are unsure, run one real job both ways this week and score it.</p>
+<h2>Do this week</h2>
+<ol>
+<li>Write the list of decision gates in your agent stack.</li>
+<li>Mark each as stay-chat, move-to-decision-model, or unknown.</li>
+<li>Move one gate this week and measure speed, cost, and typed-answer reliability.</li>
+</ol>
+<h2>Source</h2>
+<p>Prompted by Simon Willison’s notes on Jev / Decision Models: <a rel="noopener" href="https://simonwillison.net/2026/Sep/21/jev/">simonwillison.net/2026/Sep/21/jev/</a> and <a rel="noopener" href="https://x.com/simonw/status/2102175146740232238">x.com/simonw</a>. The buy/build checklist is my own.</p>
+<p>Also see: <a href="/en/ai-native-services">AI-native services</a> · <a href="/en/meeting-brain-decision-log">Meeting brain: a queryable decision log</a> · <a href="/en/#useful-work">Public work</a></p>
+
+</main><footer class="shell footer"><span>© Humoud Al Munawer · Kuwait</span><a href="/ar/">العربية</a></footer><script src="/static/analytics.js" defer></script>
+<script src="/static/site.js" defer></script></body></html>
