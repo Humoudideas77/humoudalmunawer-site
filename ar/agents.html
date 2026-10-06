@@ -1,0 +1,39 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="أصبح Claude Code يقرأ AGENTS.md، لكن فقط حين لا يوجد CLAUDE.md في طريقه. إعداد قصير يُبقي كل وكلاء البرمجة على التعليمات نفسها."><meta name="referrer" content="strict-origin-when-cross-origin"><meta property="og:type" content="article"><meta property="og:title" content="ملف تعليمات واحد لكل وكلاء البرمجة: AGENTS.md وCLAUDE.md"><meta property="og:description" content="كيف تجعل AGENTS.md المصدر الوحيد للتعليمات في Claude Code وCodex وCursor وCopilot دون أن تتباعد الملفات."><meta property="og:url" content="https://humoudalmunawer.com/ar/agents"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="ملف تعليمات واحد لكل وكلاء البرمجة: AGENTS.md وCLAUDE.md"><meta name="twitter:description" content="كيف تجعل AGENTS.md المصدر الوحيد للتعليمات في Claude Code وCodex وCursor وCopilot دون أن تتباعد الملفات."><title>ملف تعليمات واحد لكل وكلاء البرمجة: AGENTS.md وCLAUDE.md</title><link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://humoudalmunawer.com/ar/agents"><link rel="alternate" hreflang="en" href="https://humoudalmunawer.com/en/agents"><link rel="alternate" hreflang="ar" href="https://humoudalmunawer.com/ar/agents"><link rel="alternate" hreflang="x-default" href="https://humoudalmunawer.com/en/"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/site-v2.css"></head><body><a class="skip-link" href="/ar/agents#main">انتقل إلى المحتوى</a><header class="shell site-header"><a class="wordmark" href="/ar/">حمود المناور</a><nav aria-label="التنقل الرئيسي"><a href="/ar/#about">المنهج</a><a href="/ar/#ventures">المشاريع</a><a href="/ar/#useful-work">العمل العام</a><a href="/ar/#connect">تواصل</a></nav><a class="lang" href="/en/agents" aria-label="Switch to English">EN / AR</a></header><main id="main" class="shell article">
+<p class="eyebrow">ملاحظة مؤسّس</p>
+<h1>ملف تعليمات واحد لكل وكلاء البرمجة: AGENTS.md وCLAUDE.md</h1>
+<p class="article__dek">أصبح Claude Code يقرأ AGENTS.md، لكن فقط حين لا يوجد CLAUDE.md في طريقه. إعداد قصير يُبقي كل وكلاء البرمجة على التعليمات نفسها.</p>
+<p>المستودع الذي يعمل فيه أكثر من وكيل برمجة يميل إلى جمع ملف تعليمات لكل مزوّد: <code>CLAUDE.md</code>، وقواعد Cursor، وتعليمات Copilot، و<code>GEMINI.md</code>. يبدأ كل ملف نسخةً من غيره، وبعد أسابيع قليلة تتعارض الملفات، ولا يعرف أحد أيّها المرجع.</p>
+<p>‏AGENTS.md هو الحل المفتوح لهذه المشكلة: ملف Markdown واحد بسيط في جذر المستودع، يقرؤه OpenAI Codex وCursor ووكيل البرمجة في GitHub Copilot وأدوات كثيرة غيرها، وتتولّى رعايته اليوم مؤسسة Agentic AI Foundation التابعة لمؤسسة Linux. ومنذ الإصدار 2.1.277 الصادر في 18 سبتمبر 2026، صار Claude Code يقرؤه أيضًا.</p>
+<h2>ما الذي تغيّر في Claude Code</h2>
+<p>في أي مشروع لا يحتوي على <code>CLAUDE.md</code>، يقرأ Claude Code الآن <code>AGENTS.md</code> بدلًا منه. ويُضبط هذا السلوك من إعداد Project instructions داخل <code>/config</code>.</p>
+<p>كان في الإصدار الأول نقص: الجلسات العاملة على Amazon Bedrock وGoogle Vertex AI وMicrosoft Foundry، والجلسات التي عُطّل فيها القياس عن بُعد، ظلّت تقرأ <code>CLAUDE.md</code> فقط. ثم سدّ الإصدار 2.1.281 (23 سبتمبر 2026) هذا النقص، وشمل كذلك بوابات النماذج اللغوية. إن كان فريقك يشغّل Claude Code عبر مزوّد سحابي، فالحل هو التحديث لا الانتظار.</p>
+<h2>المفاجأة: CLAUDE.md ما زال يتقدّم افتراضيًا</h2>
+<p>افتراضيًا، لا يقرأ Claude Code ملف <code>AGENTS.md</code> إلا إذا لم يوجد <code>CLAUDE.md</code> أو <code>.claude/CLAUDE.md</code> أو <code>CLAUDE.local.md</code> في مجلد العمل أو أي مجلد أعلى منه. فإذا أبقيت <code>CLAUDE.md</code> «للاستثناءات فقط» دون ربطه، تجاهل Claude الملف المشترك بصمت. والملف الشخصي <code>CLAUDE.local.md</code> له الأثر نفسه.</p>
+<p>هناك إعدادان يحافظان على مصدر واحد للحقيقة:</p>
+<ol>
+<li>ضع <code>@AGENTS.md</code> في السطر الأول من <code>CLAUDE.md</code>، وأضف تحته التعليمات الخاصة بـ Claude وحده. يقرأ Claude الملف المشترك أولًا ثم الباقي، ولا يحمّل الملف نفسه مرتين.</li>
+<li>أو اضبط Project instructions على القيمة <code>claude-md-and-agents-md</code> داخل <code>/config</code>، فيُحمَّل الملفان معًا.</li>
+</ol>
+<p>إن لم يكن في <code>CLAUDE.md</code> شيء خاص بـ Claude، فاحذفه. والرابط الرمزي إلى <code>AGENTS.md</code> يؤدي الغرض أيضًا، لكن تجنّبه إن كان أحد يستنسخ المستودع على Windows.</p>
+<h2>ثلاث خطوات تحقّق تكفي</h2>
+<ol>
+<li>شغّل <code>claude --version</code>. تحتاج إلى الإصدار 2.1.277 أو أحدث، وإلى 2.1.281 أو أحدث على Bedrock أو Vertex AI أو Foundry أو عبر بوابة أو مع تعطيل القياس عن بُعد.</li>
+<li>شغّل <code>/memory</code> وتأكّد من ظهور مسار <code>AGENTS.md</code> في القائمة.</li>
+<li>إن وُجد أي <code>CLAUDE.md</code> على مسار المشروع، فتأكّد من أنه يستورد <code>@AGENTS.md</code>.</li>
+</ol>
+<h2>رأي حمود</h2>
+<p>اجعل <code>AGENTS.md</code> الملف الجذري. وتعامل مع <code>CLAUDE.md</code> كطبقة رفيعة: سطر استيراد واحد، ثم القواعد القليلة التي يحتاجها Claude وحده، مثل الخطافات أو عادات وضع التخطيط. القواعد المكرّرة بين الملفات هي بداية التباعد، فاحذف النسخ بدل محاولة مزامنتها.</p>
+<h2>افعل هذا الأسبوع</h2>
+<ol>
+<li>افتح مستودعك الرئيسي واحصر كل ملفات التعليمات: <code>AGENTS.md</code> و<code>CLAUDE.md</code> و<code>CLAUDE.local.md</code> و<code>.cursor/rules</code> و<code>.github/copilot-instructions.md</code> و<code>GEMINI.md</code>.</li>
+<li>ادمج القواعد المشتركة في ملف <code>AGENTS.md</code> واحد في الجذر.</li>
+<li>اختصر <code>CLAUDE.md</code> إلى <code>@AGENTS.md</code> مع السطور الخاصة بـ Claude، أو احذفه.</li>
+<li>أضف سطرًا واحدًا إلى README يحدّد <code>AGENTS.md</code> مصدرًا وحيدًا للتعليمات.</li>
+</ol>
+<h2>الحدود</h2>
+<p>هذه نظافة تنظيمية، وليست وعدًا بأن كل وكيل يقرأ <code>AGENTS.md</code> بالطريقة نفسها. فالأولوية تختلف من أداة إلى أخرى: يقرأ Codex أيضًا <code>AGENTS.override.md</code> الذي يتجاهله Claude Code، ويقدّم Cursor وCopilot أقرب ملف <code>AGENTS.md</code> متداخل، ويقرأ Gemini CLI ملف <code>GEMINI.md</code> ما لم تُضف <code>AGENTS.md</code> إلى إعداد <code>context.fileName</code>. تحقّق من الأدوات التي تستخدمها فعلًا.</p>
+<h2>المصادر</h2>
+<p><a rel="noopener" href="https://code.claude.com/docs/en/changelog">سجل تغييرات</a> Claude Code (الإصداران 2.1.277 و2.1.281) و<a rel="noopener" href="https://code.claude.com/docs/en/memory">توثيق الذاكرة</a>؛ <a rel="noopener" href="https://agents.md/">agents.md</a>؛ <a rel="noopener" href="https://learn.chatgpt.com/docs/agent-configuration/agents-md">دليل AGENTS.md</a> في OpenAI Codex؛ <a rel="noopener" href="https://cursor.com/docs/rules">توثيق القواعد</a> في Cursor؛ <a rel="noopener" href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions">تعليمات المستودع</a> في GitHub Copilot؛ <a rel="noopener" href="https://geminicli.com/docs/cli/gemini-md/">ملفات السياق</a> في Gemini CLI. رُوجعت في 6 أكتوبر 2026.</p>
+<p>انظر أيضًا: <a href="/ar/jev-decision-models">نماذج القرار: متى تكون الدردشة الطبقة الخاطئة</a> · <a href="/ar/meeting-brain-decision-log">عقل الاجتماع: سجل قرارات قابل للاستعلام</a> · <a href="/ar/#useful-work">العمل العام</a></p>
+</main><footer class="shell footer"><span>© حمود المناور · الكويت</span><a href="/en/">English</a></footer><script src="/static/analytics.js" defer></script>
+<script src="/static/site.js" defer></script></body></html>

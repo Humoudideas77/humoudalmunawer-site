@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Claude Code now reads AGENTS.md, but only when no CLAUDE.md is in the way. A short setup that keeps every coding agent on the same instructions."><meta name="referrer" content="strict-origin-when-cross-origin"><meta property="og:type" content="article"><meta property="og:title" content="AGENTS.md and CLAUDE.md: one instruction file for every coding agent"><meta property="og:description" content="How to make AGENTS.md the single source of truth for Claude Code, Codex, Cursor and Copilot without the files drifting."><meta property="og:url" content="https://humoudalmunawer.com/en/agents"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="AGENTS.md and CLAUDE.md: one instruction file for every coding agent"><meta name="twitter:description" content="How to make AGENTS.md the single source of truth for Claude Code, Codex, Cursor and Copilot without the files drifting."><title>AGENTS.md and CLAUDE.md: one instruction file for every coding agent</title><link rel="icon" href="/static/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://humoudalmunawer.com/en/agents"><link rel="alternate" hreflang="en" href="https://humoudalmunawer.com/en/agents"><link rel="alternate" hreflang="ar" href="https://humoudalmunawer.com/ar/agents"><link rel="alternate" hreflang="x-default" href="https://humoudalmunawer.com/en/"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/site-v2.css"></head><body><a class="skip-link" href="/en/agents#main">Skip to content</a><header class="shell site-header"><a class="wordmark" href="/en/">Humoud Al Munawer</a><nav aria-label="Primary navigation"><a href="/en/#about">Approach</a><a href="/en/#ventures">Ventures</a><a href="/en/#useful-work">Public work</a><a href="/en/#connect">Connect</a></nav><a class="lang" href="/ar/agents" aria-label="Switch to Arabic">AR / EN</a></header><main id="main" class="shell article">
+<p class="eyebrow">Founder note</p>
+<h1>AGENTS.md and CLAUDE.md: one instruction file for every coding agent</h1>
+<p class="article__dek">Claude Code now reads AGENTS.md, but only when no CLAUDE.md is in the way. A short setup that keeps every coding agent on the same instructions.</p>
+<p>A repository that several coding agents work in tends to collect one instruction file per vendor: <code>CLAUDE.md</code>, Cursor rules, Copilot instructions, <code>GEMINI.md</code>. Each one starts as a copy of another. A few weeks later they disagree, and nobody can say which file is authoritative.</p>
+<p>AGENTS.md is the open answer to that: one plain Markdown file at the repository root, read by OpenAI Codex, Cursor, the GitHub Copilot coding agent and many others, and now stewarded by the Agentic AI Foundation under the Linux Foundation. Since version 2.1.277, released on 18 September 2026, Claude Code reads it too.</p>
+<h2>What changed in Claude Code</h2>
+<p>In a project with no <code>CLAUDE.md</code>, Claude Code now reads <code>AGENTS.md</code> instead. The behaviour is controlled by the Project instructions setting in <code>/config</code>.</p>
+<p>The first release had a gap: sessions on Amazon Bedrock, Google Vertex AI and Microsoft Foundry, and sessions with telemetry disabled, still read <code>CLAUDE.md</code> only. Version 2.1.281 (23 September 2026) closed it, and also covers LLM gateways. If your team runs Claude Code through a cloud provider, the fix is to update, not to wait.</p>
+<h2>The catch: CLAUDE.md still wins by default</h2>
+<p>By default Claude Code reads <code>AGENTS.md</code> only when there is no <code>CLAUDE.md</code>, <code>.claude/CLAUDE.md</code> or <code>CLAUDE.local.md</code> in the working directory or any directory above it. Keep a <code>CLAUDE.md</code> “just for overrides” without wiring it up, and Claude silently skips the shared file. A personal <code>CLAUDE.local.md</code> has the same effect.</p>
+<p>Two setups keep one source of truth:</p>
+<ol>
+<li>Put <code>@AGENTS.md</code> on the first line of <code>CLAUDE.md</code> and add Claude-only instructions below it. Claude reads the shared file first, then the rest, and it never loads the same file twice.</li>
+<li>Or set Project instructions to <code>claude-md-and-agents-md</code> in <code>/config</code>, so both files load together.</li>
+</ol>
+<p>If <code>CLAUDE.md</code> would hold nothing Claude-specific, delete it. A symlink to <code>AGENTS.md</code> also works, but avoid it if anyone clones the repository on Windows.</p>
+<h2>Three checks are enough</h2>
+<ol>
+<li>Run <code>claude --version</code>. You need 2.1.277 or later, and 2.1.281 or later on Bedrock, Vertex AI, Foundry, a gateway, or with telemetry off.</li>
+<li>Run <code>/memory</code> and confirm the path to your <code>AGENTS.md</code> appears in the list.</li>
+<li>If any <code>CLAUDE.md</code> sits on the project path, confirm it imports <code>@AGENTS.md</code>.</li>
+</ol>
+<h2>Humoud’s take</h2>
+<p>Make <code>AGENTS.md</code> the root file. Treat <code>CLAUDE.md</code> as a thin layer: one import line plus the few rules only Claude needs, such as hooks or plan-mode habits. Rules duplicated across files are where drift starts, so delete the copies instead of keeping them in sync.</p>
+<h2>Do this week</h2>
+<ol>
+<li>Open your main repository and list every instruction file: <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>CLAUDE.local.md</code>, <code>.cursor/rules</code>, <code>.github/copilot-instructions.md</code>, <code>GEMINI.md</code>.</li>
+<li>Merge the shared rules into one <code>AGENTS.md</code> at the root.</li>
+<li>Cut <code>CLAUDE.md</code> down to <code>@AGENTS.md</code> plus Claude-specific lines, or remove it.</li>
+<li>Add one line to the README that names <code>AGENTS.md</code> as the source of truth.</li>
+</ol>
+<h2>Limits</h2>
+<p>This is hygiene, not a promise that every agent reads <code>AGENTS.md</code> the same way. Precedence differs by tool. Codex also reads <code>AGENTS.override.md</code>, which Claude Code ignores. Cursor and Copilot give the nearest nested <code>AGENTS.md</code> priority. Gemini CLI reads <code>GEMINI.md</code> unless you add <code>AGENTS.md</code> to its <code>context.fileName</code> setting. Check the tools you actually use.</p>
+<h2>Sources</h2>
+<p>Claude Code <a rel="noopener" href="https://code.claude.com/docs/en/changelog">changelog</a> (versions 2.1.277 and 2.1.281) and <a rel="noopener" href="https://code.claude.com/docs/en/memory">memory documentation</a>; <a rel="noopener" href="https://agents.md/">agents.md</a>; OpenAI Codex <a rel="noopener" href="https://learn.chatgpt.com/docs/agent-configuration/agents-md">AGENTS.md guide</a>; Cursor <a rel="noopener" href="https://cursor.com/docs/rules">rules documentation</a>; GitHub Copilot <a rel="noopener" href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions">repository instructions</a>; Gemini CLI <a rel="noopener" href="https://geminicli.com/docs/cli/gemini-md/">context files</a>. Checked 6 October 2026.</p>
+<p>Also see: <a href="/en/jev-decision-models">Decision Models: when chat is the wrong layer</a> · <a href="/en/meeting-brain-decision-log">Meeting brain: a queryable decision log</a> · <a href="/en/#useful-work">Public work</a></p>
+</main><footer class="shell footer"><span>© Humoud Al Munawer · Kuwait</span><a href="/ar/">العربية</a></footer><script src="/static/analytics.js" defer></script>
+<script src="/static/site.js" defer></script></body></html>

@@ -30,6 +30,11 @@
       "source": "/",
       "destination": "/en",
       "permanent": true
+    },
+    {
+      "source": "/agents",
+      "destination": "/en/agents",
+      "permanent": true
     }
   ]
 }
