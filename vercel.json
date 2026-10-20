@@ -23,6 +23,15 @@
           "value": "DENY"
         }
       ]
+    },
+    {
+      "source": "/static/social/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ],
   "redirects": [
